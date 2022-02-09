@@ -16,46 +16,39 @@ form.addEventListener('submit', (e) => {
 });
 
 const formattedToNumber = function (input) {
-    return input.replace(/\D/g, '');
+    return input.value.replace(/\D/g, '');
 };
 
 inpTel.addEventListener('input', (e) => {
-    let inpTelValue = inpTel.value,
-        formatTel = formattedToNumber(inpTelValue);
+    let inpValue = formattedToNumber(inpTel),
+        formatTel = '';
 
-    if(['7', '8', '9'].indexOf(formatTel[0])  > -1){
-        if(['7', '9'].indexOf(formatTel[0])  > -1){
-            console.log('введите номер в другом формате');
-            inpTel.value = '';
-        }else if(formatTel.length == 1) {
-            inpTel.value = `${formatTel[0]} (`;
-        } else if(formatTel.length == 2){
-            inpTel.value = `${formatTel[0]} (${formatTel[1]}`;
-        } else if(formatTel.length == 3){
-            inpTel.value = `${formatTel[0]} (${formatTel[1]}${formatTel[2]}`;
-        }else if(formatTel.length == 4){
-            inpTel.value = `${formatTel[0]} (${formatTel[1]}${formatTel[2]}${formatTel[3]})`;
-        }else if(formatTel.length == 5){
-            inpTel.value = `${formatTel[0]} (${formatTel[1]}${formatTel[2]}${formatTel[3]}) ${formatTel[4]}`;
-        }else if(formatTel.length == 6){
-            inpTel.value = `${formatTel[0]} (${formatTel[1]}${formatTel[2]}${formatTel[3]}) ${formatTel[4]}${formatTel[5]}`;
-        }else if(formatTel.length == 7){
-            inpTel.value = `${formatTel[0]} (${formatTel[1]}${formatTel[2]}${formatTel[3]}) ${formatTel[4]}${formatTel[5]}${formatTel[6]}-`;
-        }else if(formatTel.length == 8){
-            inpTel.value = `${formatTel[0]} (${formatTel[1]}${formatTel[2]}${formatTel[3]}) ${formatTel[4]}${formatTel[5]}${formatTel[6]}-${formatTel[7]}`;
-        }else if(formatTel.length == 9){
-            inpTel.value = `${formatTel[0]} (${formatTel[1]}${formatTel[2]}${formatTel[3]}) ${formatTel[4]}${formatTel[5]}${formatTel[6]}-${formatTel[7]}${formatTel[8]}-`;
-        }
-        
-    
-       
-    } else if(formatTel == ''){
-    //     console.log('Пустая строка');
+    if(['7', '8', '9'].indexOf(inpValue[0])  > -1){
+        if(inpValue[0] == '9') inpValue = '7' + inpValue;
+        const first = (inpValue[0] == '8') ? '8' : '+7';
+        formatTel = first + ' ';
+        if(inpValue.length > 1) formatTel += '(' + inpValue.substring(1,4);
+        if(inpValue.length >= 5) formatTel += ') ' + inpValue.substring(4,7);
+        if(inpValue.length >= 8) formatTel += '-' + inpValue.substring(7,9);
+        if(inpValue.length >= 10) formatTel += '-' + inpValue.substring(9,11);
+
     } else {
-        inpTel.value = '+' + formatTel;
+        formatTel = '+' + inpValue.substring(0,16);
     }
 
-    console.log(formatTel.length, formatTel);
+    inpTel.value = formatTel;
+
+    console.log(inpValue);
 
 
 });
+
+
+
+
+
+
+
+
+
+
